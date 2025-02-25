@@ -2,40 +2,52 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Auto Scrolling Page</title>
+  <title>Auto Scrolling Glide Content</title>
   <style>
-    /* This style ensures the page is long enough to scroll */
-    body {
-      height: 3000px; /* Adjust as needed */
+    /* Remove default margins/padding and hide the main page scrollbar */
+    html, body {
       margin: 0;
-      padding: 20px;
-      font-family: Arial, sans-serif;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+    /* Create a container that takes up the full viewport and allows scrolling */
+    #scrollContainer {
+      height: 100vh;
+      overflow: auto;
+    }
+    /* Set the iframe to be wider than the viewport height so that its content can scroll */
+    iframe {
+      width: 100%;
+      height: 3000px; /* Adjust this height to match the expected length of the Glide page */
+      border: none;
     }
   </style>
 </head>
 <body>
-  <!-- Unique content to verify the file is loaded -->
-  <h1>Hello from index.html</h1>
-  <p>Add more content here if needed so you can see the scrolling effect.</p>
-  
+  <!-- The container that will auto-scroll -->
+  <div id="scrollContainer">
+    <!-- The iframe loads the Glide page -->
+    <iframe src="https://texasfencingacademy.glide.page/dl/1e2505"></iframe>
+  </div>
+
   <script>
     (function autoScroll() {
-      const scrollSpeed = 1;      // Number of pixels to scroll per step
-      const scrollInterval = 10;  // Time in ms between each scroll step
+      const container = document.getElementById('scrollContainer');
+      const scrollSpeed = 1;     // pixels to scroll per interval
+      const scrollInterval = 10; // milliseconds between scroll steps
 
-      // Helper function to determine the maximum scroll position
+      // Determine the maximum scroll position for the container
       function getMaxScroll() {
-        return document.documentElement.scrollHeight - window.innerHeight;
+        return container.scrollHeight - container.clientHeight;
       }
 
-      // Set up the interval to auto-scroll
-      setInterval(function () {
-        if (window.pageYOffset < getMaxScroll()) {
-          // Scroll down by a small increment
-          window.scrollBy(0, scrollSpeed);
+      // Set up auto-scrolling on the container
+      setInterval(() => {
+        if (container.scrollTop < getMaxScroll()) {
+          container.scrollTop += scrollSpeed;
         } else {
-          // When the bottom is reached, reset to the top
-          window.scrollTo(0, 0);
+          container.scrollTop = 0; // reset to the top when bottom is reached
         }
       }, scrollInterval);
     })();
