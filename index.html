@@ -4,13 +4,20 @@
   <meta charset="UTF-8">
   <title>Auto Scrolling Page</title>
   <style>
-    /* Ensure there's enough content to scroll */
+    /* This style ensures the page is long enough to scroll */
     body {
-      height: auto; /* Adjust as needed */
+      height: 3000px; /* Adjust as needed */
+      margin: 0;
+      padding: 20px;
+      font-family: Arial, sans-serif;
     }
   </style>
 </head>
 <body>
+  <!-- Unique content to verify the file is loaded -->
+  <h1>Hello from index.html</h1>
+  <p>Add more content here if needed so you can see the scrolling effect.</p>
+  
   <script>
     (function autoScroll() {
       const scrollSpeed = 1;      // Number of pixels to scroll per step
