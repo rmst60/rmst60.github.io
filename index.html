@@ -1,43 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Auto Scroll Demo</title>
+  <title>Auto Scroll Glide Page</title>
   <style>
-    /* This ensures the page is long enough to scroll */
-    body {
-      height: 2000px;
+    /* Remove default margins/padding and disable browser scrollbars */
+    html, body {
       margin: 0;
-      padding: 20px;
-      font-family: Arial, sans-serif;
+      padding: 0;
+      overflow: hidden;
+      height: 100%;
+    }
+    /* Create a scrollable container with a fixed height */
+    #scrollContainer {
+      position: relative;
+      width: 100%;
+      height: 3000px; /* Adjust this height as needed to cover your content */
+    }
+    /* Style the iframe to fill the container */
+    #scrollContainer iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
     }
   </style>
 </head>
 <body>
-  <h1>Auto Scroll Demo</h1>
-  <p>This page will automatically scroll down and then back up.</p>
+  <!-- This container will hold the Glide page -->
+  <div id="scrollContainer">
+    <iframe src="https://texasfencingacademy.glide.page/dl/1e2505"></iframe>
+  </div>
 
   <script>
-    (function() {
-      const scrollStep = 10;      // Pixels to scroll per interval
-      const intervalTime = 50;    // Time between scrolls (in milliseconds)
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      let direction = 'down';
+    // Auto-scroll the entire outer page (not just the iframe)
+    (function autoScroll() {
+      const scrollStep = 1;      // pixels to scroll per step
+      const intervalTime = 20;   // milliseconds between each scroll step
+      let direction = 'down';    // start by scrolling down
 
-      const scrollInterval = setInterval(() => {
-        const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+      // Calculate the maximum scrollable distance
+      function getMaxScroll() {
+        return document.documentElement.scrollHeight - window.innerHeight;
+      }
 
+      // Use setInterval to scroll the outer page continuously
+      setInterval(() => {
+        let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+        
         if (direction === 'down') {
-          if (currentScroll >= maxScroll) {
-            direction = 'up';
-          } else {
+          if (currentScroll < getMaxScroll()) {
             window.scrollBy(0, scrollStep);
+          } else {
+            direction = 'up';
           }
         } else {
-          if (currentScroll <= 0) {
-            clearInterval(scrollInterval);
-          } else {
+          if (currentScroll > 0) {
             window.scrollBy(0, -scrollStep);
+          } else {
+            direction = 'down';
           }
         }
       }, intervalTime);
